@@ -9,10 +9,15 @@ CORS(app)  # 启用跨域
 def chat():
     data = request.get_json()  # 获取 JSON 数据
     prompt = data.get('message')  # 从请求中获取消息
+    print(f"问题为：{prompt}")
     
     llm = LLM()
     ai_response = llm.generate_code(prompt)
     print(ai_response)
+    
+    print(f"开始解析code")
+    text = llm.extract_code(ai_response)
+    llm.save_code(text, "example")
     
     return jsonify({'response': ai_response})  # 返回 JSON 响应
 
