@@ -1,5 +1,6 @@
 from transformers import AutoModelForCausalLM, AutoTokenizer, TextStreamer
 
+
 class LLM:
     def __init__(self, model_path='D:\pythonProject\DeepLearning\Qwen2.5-Coder-1.5B-Instruct'):
         self.model_path = model_path
@@ -39,4 +40,27 @@ class LLM:
         response = self.tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
         
         return response
-        
+
+    def generate_code_stream(self, prompt):
+        messages = [
+            {"role": "system", "content": "你是一个智能代码AI助手，负责根据问题完成编码。"},
+            {"role": "user", "content": prompt},
+        ]
+
+        text = self.tokenizer.apply_chat_template(
+            messages,
+            tokenize=False,
+            add_generation_prompt=True,
+        )
+
+        model_inputs = self.tokenizer([text], return_tensors="pt").to(self.model.device)
+        streamer = TextStreamer(self.tokenizer, skip_prompt=True, skip_special_tokens=True)
+
+        for generated_ids in self.model.generate(
+                model_inputs.input_ids,
+                max_new_tokens=512,
+                streamer=streamer,
+                do_sample=True
+        ):
+            partial_response = self.tokenizer.decode(generated_ids, skip_special_tokens=True)
+            yield partial_response

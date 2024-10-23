@@ -1,12 +1,14 @@
 <template>
   <div id="app">
     <h1>GPT-like Chat Application</h1>
+    <Chat />
     <ChatDisplay :messages="messages" />
     <ChatInput @send-message="handleSendMessage" />
   </div>
 </template>
 
 <script>
+import Chat from './components/Chat.vue';
 import ChatDisplay from './components/ChatDisplay.vue';
 import ChatInput from './components/ChatInput.vue';
 import axios from 'axios';  // 引入 axios
@@ -14,6 +16,7 @@ import axios from 'axios';  // 引入 axios
 export default {
   name: 'App',
   components: {
+    Chat,
     ChatDisplay,
     ChatInput
   },
