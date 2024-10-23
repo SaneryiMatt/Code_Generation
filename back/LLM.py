@@ -16,8 +16,13 @@ class LLM:
         
     # 大模型生成代码
     def generate_code(self, prompt):
+        context = f"""
+        你是一个智能代码AI助手，负责根据问题完成编码。
+        代码过长时，请使用模块化思想，将代码放到多个文件中。
+        在编码的过程中，首先给代码文件起一个名字，再开始写代码，在编码过程中适当添加注释。
+        """
         messages = [
-            {"role": "system", "content": "你是一个智能代码AI助手，负责根据问题完成编码。在编码的过程中，首先给代码文件起一个名字，然后开始正式写代码，在编码过程中适当添加注释。"},  # 系统角色消息
+            {"role": "system", "content": context},  # 系统角色消息
             {"role": "user", "content": prompt},  # 用户角色消息
         ]
         
@@ -32,7 +37,7 @@ class LLM:
         streamer = TextStreamer(self.tokenizer, skip_prompt=True, skip_special_tokens=True)
         generated_ids = self.model.generate(
             model_inputs.input_ids,
-            max_new_tokens=512,
+            max_new_tokens=4096,
             streamer=streamer,
         )
         
@@ -78,7 +83,7 @@ class LLM:
         model_inputs = self.tokenizer([chat], return_tensors="pt").to(self.model.device)
         generated_ids = self.model.generate(
             model_inputs.input_ids,
-            max_new_tokens=512,
+            max_new_tokens=4096,
         )
 
         # 从生成的ID中提取新生成的ID部分
