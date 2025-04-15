@@ -1,6 +1,6 @@
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_deepseek import ChatDeepSeek
-from langchain_core.output_parsers import StrOutputParser
+from langchain_core.output_parsers import StrOutputParser, JsonOutputParser
 from typing import Iterator
 import time
 
@@ -84,9 +84,207 @@ def generate_description(query: str) -> Iterator[str]:
 
     try:
         for chunk in chain.stream({"text": text, "input": query}):
-            if hasattr(chunk, 'content') and chunk.content:
-                yield f"data: {chunk.content}\n\n"
-            time.sleep(0.01)
+            yield f"data: {chunk}\n\n"
+        yield "data: [DONE]\n\n"
+    except Exception as e:
+        print(f"Error in generate_stream: {str(e)}")
+        yield f"data: Error: {str(e)}\n\n"
+        yield "data: [DONE]\n\n"
+
+
+
+def generate_tables(query: str) -> Iterator[str]:
+    chat = ChatDeepSeek(
+            model="deepseek-chat",
+            temperature=0,
+            max_tokens=None,
+            timeout=None,
+            max_retries=2,
+            streaming=True
+    )
+    
+    # 使用正确的消息格式 - 使用字典而不是元组
+    prompt = ChatPromptTemplate.from_messages([
+            {"role": "system", "content": "{text}"},
+            {"role": "human", "content": "{input}"}
+    ])
+
+    output_parser = JsonOutputParser()
+
+    chain = prompt | chat | output_parser
+
+    text = """
+```xml
+<instruction>
+<instructions>
+1. 根据需求生成对应表设计，并按照JSON格式严格输出。
+2. 生成的表设计中不包括id字段。
+3. 生成内容中description不能为空。
+4. 严格按照需求，要多少个信息，设计多少个表单。
+5. 输出不应包含任何xml标记。
+
+<example>
+input:
+图书管理模块：
+1. 书籍信息（书名、ISBN、作者、出版社、出版日期、价格、库存、备注）
+2. 作者信息（姓名、国籍、生日、作品数量、备注）
+3. 出版社信息（名称、地点、联系方式、成立时间、备注）
+
+output:
+[
+{
+    "name": "books",
+    "display_name": "书籍",
+    "description": "",
+    "fields": [
+        {
+            "name": "name",
+            "display_name": "书名",
+            "field_type": "text",
+            "required": true,
+            "default_value": ""
+        },
+        {
+            "name": "ISBN",
+            "display_name": "ISBN",
+            "field_type": "text",
+            "required": true,
+            "default_value": ""
+        }
+    ]
+},
+{
+    "name": "author",
+    "display_name": "作者",
+    "description": "",
+    "fields": [
+        {
+            "name": "name",
+            "display_name": "书名",
+            "field_type": "text",
+            "required": true,
+            "default_value": ""
+        },
+        {
+            "name": "nation",
+            "display_name": "国籍",
+            "field_type": "text",
+            "required": false,
+            "default_value": ""
+        }
+    ]
+},
+]
+
+<example>
+input:
+学生信息管理系统：
+1. 学生信息（姓名、学号、性别、年龄、班级、联系方式）
+2. 班级信息（班级名称、班主任、学生人数、备注）
+
+output:
+[
+{
+    "name": "student",
+    "display_name": "学生",
+    "description": "",
+    "fields": [
+        {
+            "name": "name",
+            "display_name": "姓名",
+            "field_type": "text",
+            "required": true,
+            "default_value": ""
+        },
+        {
+            "name": "student_id",
+            "display_name": "学号",
+            "field_type": "text",
+            "required": true,
+            "default_value": ""
+        }
+    ]
+},
+{
+    "name": "class",
+    "display_name": "班级",
+    "description": "",
+    "fields": [
+        {
+            "name": "class_name",
+            "display_name": "班级名称",
+            "field_type": "text",
+            "required": true,
+            "default_value": ""
+        },
+        {
+            "name": "class_teacher",
+            "display_name": "班主任",
+            "field_type": "text",
+            "required": true,
+            "default_value": ""
+        }
+    ]
+},
+]
+
+<example>
+input:
+餐厅管理系统：
+1. 菜品信息（菜名、价格、口味、烹饪时间、备注）
+2. 厨师信息（姓名、工龄、擅长菜系、联系方式）
+
+output:
+[
+{
+    "name": "dish",
+    "display_name": "菜品",
+    "description": "",
+    "fields": [
+        {
+            "name": "dish_name",
+            "display_name": "菜名",
+            "field_type": "text",
+            "required": true,
+            "default_value": ""
+        },
+        {
+            "name": "price",
+            "display_name": "价格",
+            "field_type": "text",
+            "required": true,
+            "default_value": ""
+        }
+    ]
+},
+{
+    "name": "chef",
+    "display_name": "厨师",
+    "description": "",
+    "fields": [
+        {
+            "name": "name",
+            "display_name": "姓名",
+            "field_type": "text",
+            "required": true,
+            "default_value": ""
+        },
+        {
+            "name": "years_of_experience",
+            "display_name": "工龄",
+            "field_type": "text",
+            "required": true,
+            "default_value": ""
+        }
+    ]
+},
+]
+```
+"""
+
+    try:
+        for chunk in chain.stream({"text": text, "input": query}):
+            yield f"data: {chunk}\n\n"
         yield "data: [DONE]\n\n"
     except Exception as e:
         print(f"Error in generate_stream: {str(e)}")
