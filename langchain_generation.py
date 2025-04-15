@@ -282,11 +282,5 @@ output:
 ```
 """
 
-    try:
-        for chunk in chain.stream({"text": text, "input": query}):
-            yield f"data: {chunk}\n\n"
-        yield "data: [DONE]\n\n"
-    except Exception as e:
-        print(f"Error in generate_stream: {str(e)}")
-        yield f"data: Error: {str(e)}\n\n"
-        yield "data: [DONE]\n\n"
+    result = chain.invoke({"text": text, "input": query})
+    print(result)
