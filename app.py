@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__, static_folder='static')
-CORS(app)  # 配置CORS，允许前端访问
+CORS(app)
 
 
 PREDEFINED_CODE = """// 数据库表结构示例
