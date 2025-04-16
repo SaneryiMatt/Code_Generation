@@ -28,31 +28,27 @@
 
 ```
 /
-├── backend/                      # 后端 Flask 应用
-│   ├── models/                   
-|       ├── __init__.py           # 初始化
-|       ├── filed_definition.py   # 管理和操作数据库中字段定义
-|       ├── menu_item.py          # 管理可嵌套的菜单系统
-|       ├── table_definition.py   # 定义和管理数据库表的结构及其关联关系
-|       ├── user.py               # 管理系统的用户账户和认证
-│   ├── views/                    
-|       ├── .env.example          # 环境示例
-|       ├── README.md             # 项目说明书
-│       ├── app.py                # 应用入口
-│       ├── config.py             # 配置文件
-│       ├── commands.py           # 命令行工具
-|       └── requirements.txt      # 后端所需安装包
-└── frontend/             # 前端 Vue 应用
-    ├── src/              # 源代码
-    │   ├── assets/       # 资源文件
-    │   ├── components/   # 组件
-    │   ├── layouts/      # 布局组件
-    │   ├── router/       # 路由
-    │   ├── stores/       # 状态管理
-    │   ├── views/        # 页面视图
-    │   ├── App.vue       # 根组件
-    │   └── main.js       # 入口文件
-    └── index.html        # HTML 模板
+├── README.md                     # 项目说明书
+├── .venv/                        # 后端虚拟环境
+├── static/
+    ├── index.html                # 接口测试的HTML模板
+├── backend/                      # 后端 Flask 应用                  
+|   ├── .env.example              # 环境示例
+│   ├── app.py                    # 应用入口
+│   ├── dify_generation.py        # Dify API交互工具
+|   └── langchain_generation.py   # 基于DeepSeek的模块设计与表结构生成器
+└── frontend/                     # 前端 Vue 应用
+    ├── src/                      # 源代码
+    │   ├── assets/               # 资源文件
+    │   ├── components/           # 组件
+    │   ├── layouts/              # 布局组件
+    │   ├── router/               # 路由
+    │   ├── stores/               # 状态管理
+    │   ├── views/                # 页面视图
+    |   ├── utils                 # 工具
+    │   ├── App.vue               # 根组件
+    │   └── main.js               # 入口文件
+    └── tests/                    # 初期测试文件
 ```
 
 ## 快速开始
