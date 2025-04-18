@@ -2,7 +2,7 @@
   <div class="table-management-container page-container">
     <div class="page-header">
       <h1 class="page-title">表格管理</h1>
-      <el-button type="primary" @click="showCreateTable">创建新表格</el-button>
+
     </div>
     
     <div class="page-content">

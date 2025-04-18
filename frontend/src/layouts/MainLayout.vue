@@ -3,7 +3,7 @@
     <!-- Sidebar -->
     <div class="sidebar">
       <div class="logo-container">
-        <h2>动态表格管理系统</h2>
+        <h2>后台管理系统</h2>
       </div>
       
       <el-menu 
@@ -51,20 +51,26 @@
             </el-breadcrumb-item>
           </el-breadcrumb>
         </div>
-        
-        <div class="user-info">
-          <el-dropdown trigger="click" @command="handleCommand">
-            <span class="user-dropdown-link">
-              {{ user?.username || '用户' }}
-              <el-icon class="el-icon--right"><arrow-down /></el-icon>
-            </span>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item command="profile">个人信息</el-dropdown-item>
-                <el-dropdown-item command="logout">退出登录</el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
+
+        <div class="header-right">
+          <el-button type="primary" size="small" class="go-button" @click="goToFrontend">
+            代码生成
+          </el-button>
+
+          <div class="user-info">
+            <el-dropdown trigger="click" @command="handleCommand">
+              <span class="user-dropdown-link">
+                {{ user?.username || '用户' }}
+                <el-icon class="el-icon--right"><arrow-down /></el-icon>
+              </span>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item command="profile">个人信息</el-dropdown-item>
+                  <el-dropdown-item command="logout">退出登录</el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+          </div>
         </div>
       </div>
       
@@ -128,9 +134,27 @@ function handleCommand(command) {
     console.log('Profile clicked')
   }
 }
+
+function goToFrontend() {
+  window.open('http://localhost:5174/', '_blank')
+}
+
+
 </script>
 
 <style lang="scss" scoped>
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.go-button {
+  margin-right: 0;
+}
+
+
+
 .main-layout {
   display: flex;
   height: 100vh;
