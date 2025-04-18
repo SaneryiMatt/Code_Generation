@@ -330,7 +330,7 @@ def generate_code(json_data: str) -> Iterator[tuple[str, str]]:
 def save_code_to_local(json_data: str, output_dir: str = "./") -> list[str]:
     # 创建输出目录
     if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
+        os.makedirs(output_dir,exist_ok=True)
     
     saved_files = []
     
