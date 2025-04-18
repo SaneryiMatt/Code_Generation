@@ -1,0 +1,128 @@
+[
+  {
+    "name": "student",
+    "display_name": "学生",
+    "description": "",
+    "fields": [
+      {
+        "name": "name",
+        "display_name": "姓名",
+        "field_type": "text",
+        "required": true,
+        "default_value": ""
+      },
+      {
+        "name": "student_id",
+        "display_name": "学号",
+        "field_type": "text",
+        "required": true,
+        "default_value": ""
+      },
+      {
+        "name": "gender",
+        "display_name": "性别",
+        "field_type": "text",
+        "required": true,
+        "default_value": ""
+      },
+      {
+        "name": "contact",
+        "display_name": "联系方式",
+        "field_type": "text",
+        "required": true,
+        "default_value": ""
+      },
+      {
+        "name": "enrollment_date",
+        "display_name": "入学日期",
+        "field_type": "date",
+        "required": true,
+        "default_value": ""
+      }
+    ]
+  },
+  {
+    "name": "teacher",
+    "display_name": "教师",
+    "description": "",
+    "fields": [
+      {
+        "name": "name",
+        "display_name": "姓名",
+        "field_type": "text",
+        "required": true,
+        "default_value": ""
+      },
+      {
+        "name": "teacher_id",
+        "display_name": "工号",
+        "field_type": "text",
+        "required": true,
+        "default_value": ""
+      },
+      {
+        "name": "gender",
+        "display_name": "性别",
+        "field_type": "text",
+        "required": true,
+        "default_value": ""
+      },
+      {
+        "name": "contact",
+        "display_name": "联系方式",
+        "field_type": "text",
+        "required": true,
+        "default_value": ""
+      },
+      {
+        "name": "hire_date",
+        "display_name": "入职日期",
+        "field_type": "date",
+        "required": true,
+        "default_value": ""
+      }
+    ]
+  },
+  {
+    "name": "course",
+    "display_name": "课程",
+    "description": "",
+    "fields": [
+      {
+        "name": "name",
+        "display_name": "课程名称",
+        "field_type": "text",
+        "required": true,
+        "default_value": ""
+      },
+      {
+        "name": "course_id",
+        "display_name": "课程代码",
+        "field_type": "text",
+        "required": true,
+        "default_value": ""
+      },
+      {
+        "name": "credit",
+        "display_name": "学分",
+        "field_type": "number",
+        "required": true,
+        "default_value": ""
+      },
+      {
+        "name": "instructor",
+        "display_name": "授课教师",
+        "field_type": "text",
+        "required": true,
+        "default_value": ""
+      },
+      {
+        "name": "start_date",
+        "display_name": "开课时间",
+        "field_type": "date",
+        "required": true,
+        "default_value": ""
+      }
+    ]
+  }
+]
